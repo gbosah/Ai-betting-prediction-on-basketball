@@ -37,9 +37,19 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    runAnalysis();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const result = await fetchHoopLogicAnalysis();
+        setData(result);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []); // The [] means "Only run once when the page opens"
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 md:px-8">
