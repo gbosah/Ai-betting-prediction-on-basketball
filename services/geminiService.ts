@@ -9,7 +9,8 @@ export const fetchHoopLogicAnalysis = async () => {
 }
 
   // Always instantiate a fresh GoogleGenAI instance inside the call
-  const genAI = new GoogleGenAI(GOOGLE_API_KEY);
+  const genAI = new GoogleGenAI(import.meta.env.VITE_GEMINI_API_KEY);
+  // const genAI = new GoogleGenAI(GOOGLE_API_KEY);
   // const genAI = new GoogleGenAI(apiKey);
   // const ai = new GoogleGenAI({ apiKey: API_KEY });
   
