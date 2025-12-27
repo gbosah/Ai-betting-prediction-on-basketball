@@ -3,13 +3,14 @@ import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from "../constants.ts";
 
 export const fetchHoopLogicAnalysis = async () => {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  if (!API_KEY) {
-    throw new Error("API Key is missing. Please ensure process.env.API_KEY is configured.");
-  }
+  const GOOGLE_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+  if (!GOOGLE_API_KEY) {
+  console.error("⚠️ API Key missing! Check Vercel Env Variables for VITE_GEMINI_API_KEY");
+}
 
   // Always instantiate a fresh GoogleGenAI instance inside the call
-  const genAI = new GoogleGenAI(apiKey);
+  const genAI = new GoogleGenAI(GOOGLE_API_KEY);
+  // const genAI = new GoogleGenAI(apiKey);
   // const ai = new GoogleGenAI({ apiKey: API_KEY });
   
   try {
