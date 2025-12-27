@@ -37,19 +37,9 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const result = await fetchHoopLogicAnalysis();
-        setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []); // The [] means "Only run once when the page opens"
+    // This calls the existing function you already have on line 14
+    runAnalysis();
+  }, [runAnalysis]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 md:px-8">
