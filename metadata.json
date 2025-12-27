@@ -1,0 +1,5 @@
+{
+  "name": "Copy of HoopLogic AI",
+  "description": "A high-performance NBA betting quant and sentiment analyzer using Gemini's live search grounding to track market trends, public leans, and pace-of-play metrics.",
+  "requestFramePermissions": []
+}
