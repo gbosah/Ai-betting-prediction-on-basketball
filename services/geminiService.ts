@@ -1,33 +1,29 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from "../constants.ts";
 
 export const fetchHoopLogicAnalysis = async () => {
-  const GOOGLE_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-  if (!GOOGLE_API_KEY) {
-  console.error("⚠️ API Key missing! Check Vercel Env Variables for VITE_GEMINI_API_KEY");
-}
+  // 1. Get the key from Vite's environment
+  const GOOGLE_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-  // Always instantiate a fresh GoogleGenAI instance inside the call
-  const genAI = new GoogleGenAI(import.meta.env.VITE_GEMINI_API_KEY);
-  // const genAI = new GoogleGenAI(GOOGLE_API_KEY);
-  // const genAI = new GoogleGenAI(apiKey);
-  // const ai = new GoogleGenAI({ apiKey: API_KEY });
-  
+  if (!GOOGLE_API_KEY) {
+    throw new Error("API Key missing! Please set VITE_GEMINI_API_KEY in Vercel.");
+  }
+
+  // 2. NEW 2025 SYNTAX: You MUST pass an object, not just the string
+  const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
+
   try {
+    // 3. The new SDK uses 'ai.models.generateContent' directly
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Quantify market sentiment and results for NBA/NCAAB for ${new Date().toLocaleDateString()}. 
-      Analyze r/sportsbook, r/algobetting, and Action Network.
-      Return the results in the required JSON format.`,
+      contents: `Quantify market sentiment and results for NBA/NCAAB for ${new Date().toLocaleDateString()}. Analyze r/sportsbook, r/algobetting, and Action Network. Return the results in JSON format.`,
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         tools: [{ googleSearch: {} }],
-        // CRITICAL: responseMimeType is removed here because search grounding citations 
-        // frequently clash with strict JSON enforcement, causing 500 internal errors in the proxy.
-        // We will manually parse the response text instead.
       },
     });
+
+    // ... rest of your parsing logic ...
 
     const rawText = response.text || "";
     
