@@ -3,13 +3,14 @@ import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from "../constants.ts";
 
 export const fetchHoopLogicAnalysis = async () => {
-  const API_KEY = process.env.API_KEY || "";
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   if (!API_KEY) {
     throw new Error("API Key is missing. Please ensure process.env.API_KEY is configured.");
   }
 
   // Always instantiate a fresh GoogleGenAI instance inside the call
-  const ai = new GoogleGenAI({ apiKey: API_KEY });
+  const genAI = new GoogleGenAI(apiKey);
+  // const ai = new GoogleGenAI({ apiKey: API_KEY });
   
   try {
     const response = await ai.models.generateContent({
