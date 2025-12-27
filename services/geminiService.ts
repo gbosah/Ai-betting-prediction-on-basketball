@@ -16,10 +16,18 @@ export const fetchHoopLogicAnalysis = async () => {
   const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
   
   try {
-    const model = ai.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
-      tools: [{ googleSearch: {} }] 
+    // ✅ NEW 2025 SYNTAX: No more 'getGenerativeModel'
+    const response = await ai.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: `NBA/NCAAB betting analysis for ${new Date().toLocaleDateString()}`,
+      config: {
+        systemInstruction: SYSTEM_INSTRUCTION,
+        tools: [{ googleSearch: {} }], // Keeps your search grounding active
+      },
     });
+
+    // In the new SDK, the text is here:
+    const rawText = response.text;
 
     const result = await model.generateContent({
       contents: [{ role: "user", parts: [{ text: `NBA/NCAAB betting analysis for ${new Date().toLocaleDateString()}` }] }],
