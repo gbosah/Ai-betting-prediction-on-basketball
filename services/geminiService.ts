@@ -9,8 +9,8 @@ export const fetchHoopLogicAnalysis = async () => {
   }
 
   // Always instantiate a fresh GoogleGenAI instance inside the call
-  // const genAI = new GoogleGenAI(apiKey);
-  const ai = new GoogleGenAI({ apiKey: API_KEY });
+  const genAI = new GoogleGenAI(apiKey);
+  // const ai = new GoogleGenAI({ apiKey: API_KEY });
   
   try {
     const response = await ai.models.generateContent({
